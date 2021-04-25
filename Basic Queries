@@ -1,0 +1,162 @@
+GET /_cluster/health
+GET /_cat/nodes?v
+GET /_cat/indices?v
+GET /_nodes
+PUT /products
+PUT /products/_doc/100
+{
+  "name": "KETTLE",
+  "price":100,
+  "in_stock":145
+}
+GET /products/_doc/567
+POST /products/_update/100
+{
+  "script":{
+    "source":"ctx._source.in_stock+=100"
+  }
+}
+POST /products/_update/100
+{
+  "script":{
+    "source":"ctx._source.in_stock-=params.quantity",
+    "params":{
+      "quantity":40
+    }
+  }
+}
+
+GET /_cat/shards?v
+
+POST /_analyze
+{
+  "text":"HI I am Nainshi",
+  "analyzer":"standard"
+}
+
+#Creating Explicit Mapping
+
+PUT /reviews
+{
+  "mappings": {
+    "properties": {
+      "rating":{"type":"float"},
+      "content":{"type":"text"},
+      "product":{"type":"integer"},
+      "author":{
+        "properties": {
+          "firstName":{"type":"text"},
+          "lastName":{"type":"text"},
+          "email":{"type":"keyword"}
+        }
+      }
+    }
+  }
+}
+
+POST /reviews/_doc/100
+{
+  "rating":3.5,
+  "content": "Good for kids",
+  "product": 156,
+  "author":
+  {
+    "firstName": "Priya",
+    "lastName":"Raj",
+    "email":"priya.raj@gzalil.com"
+  }
+}
+
+GET /reviews/_doc/100
+
+#To reterive the mappings of an index
+
+GET /reviews/_mapping/field/author.firstName
+GET /reviews/_mapping
+
+#Adding mapping to  an existing index
+
+PUT /reviews/_mapping
+{
+  "properties":
+  {
+    "createdAt":{
+      "type":"date"
+    }
+  }
+}
+
+#Mutlifield Mapping
+PUT /mutilifield_test
+{
+   "mappings": {
+     "properties": {
+       "description":{
+         "type": "text"
+       },
+       "ingredients":{
+         "type": "text",
+         "fields": {
+           "keywords":{
+             "type":"keyword"
+           }
+         }
+       }
+     }
+   }
+}
+POST /mutilifield_test/_doc
+{
+  "description":"To make this cream cheese you first need to ..",
+  "ingredients":["Cream","Cheese","Flour","Suger"]
+}
+GET /mutilifield_test/_doc/Y-9Q_ngBLRDbHXfx6-YL
+
+PUT /people
+{
+  "mappings": {
+    "dynamic":"strict",
+    "properties": {
+      "first_name":{
+        "type":"text"
+      }
+    }
+  }
+}
+
+POST /people/_doc
+{
+  "first_name":"Nainshi",
+  "last_name":"Jaiswal"
+}
+
+GET /people/_search
+{
+  "query": {
+    "match_phrase": {
+      "last_name": "Jaiswal"
+    }
+  }
+}
+DELETE /people
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
