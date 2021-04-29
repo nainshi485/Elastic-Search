@@ -1,0 +1,55 @@
+#Compound Query
+
+#Query with boolean Logic
+
+
+GET /recipe/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+        "match": {
+          "ingredients.name": "parmesan"
+          
+        }},
+        {
+        
+        "range": {
+          "preparation_time_minutes": {
+            
+            "lte": 15
+          }
+        }
+          
+        }
+    
+      ]
+    
+    }
+  }
+}
+
+
+
+GET /recipe/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "ingredients.name": "parmesan"
+          }
+        },
+        {
+          "range": {
+            "preparation_time_minutes": {
+              "lte": 15
+            }
+          }
+        }
+      ]
+    }
+  }
+}

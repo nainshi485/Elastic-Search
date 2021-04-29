@@ -1,0 +1,1 @@
+ curl -H "Content-Type:application/x-ndjson" -XPOST http://localhost:9200/recipe/_bulk --data-binary "@test-data.json"

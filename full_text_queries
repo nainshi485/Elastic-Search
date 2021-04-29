@@ -1,0 +1,25 @@
+GET /recipe/_mapping
+
+GET /recipe/_search
+{
+  "query": {
+    "match": {
+      "title": "Recipes with pasta or Spaghetti"
+    }
+  }
+}
+
+#THe upper query uses seprates the tittle with terms and search for each term with OR operator by default , we will change this OR to AND
+
+GET /recipe/_search
+{
+  "query": {
+    "match": {
+      "title": 
+      {"query": "pasta  Spaghetti",
+        "operator": "and"
+      }
+      
+    }
+  }
+}
