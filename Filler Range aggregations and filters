@@ -1,0 +1,58 @@
+#Create 2 buckets , one with pasta  and one with Spaghetti
+
+GET /recipe/_search
+{
+  "size": 0,
+  "aggs": {
+    "myfilter": {
+      "filters": {
+        "filters": {
+          "pasta": {
+            "match":{
+              "title":"pasta"
+            }
+          },
+          "spaghetti":{
+            "match":{
+              "title":"spaghetti"
+            }
+          }
+          
+        }
+      },"aggs": {
+        "avg_agg": {
+          "avg": {
+            "field": "ratings"
+          }
+        }
+      }
+    }
+  }
+  
+}
+
+#Create 3 buckets with ranges 
+GET /order/_search
+{
+  "size": 0,
+  "aggs": {
+    "my_range_agg": {
+      "range": {
+        "field": "total_amount",
+        "ranges": [
+          {
+            
+            "to": 50
+          },
+          {
+            "from": 50,
+            "to":100
+          },
+          {
+            "from": 100
+          }
+        ]
+      }
+    }
+  }
+}

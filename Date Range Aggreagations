@@ -1,0 +1,25 @@
+#Date Range Aggreagations
+
+GET /order/_search
+{
+  "size": 0,
+  "aggs": {
+    "my_purchase_range_agg": {
+      "date_range": {
+        "field": "purchased_at",
+        "format": "yyyy-MM-dd", 
+        "keyed": true, 
+        "ranges": [
+          {
+            "from": "2016-01-01",
+            "to": "2016-01-01||+6M"
+          },
+          {
+            "from":"2016-01-01||+6M",
+            "to":"2016-01-01||+1y"
+          }
+        ]
+      }
+    }
+  }
+}

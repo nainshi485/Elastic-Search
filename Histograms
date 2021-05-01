@@ -1,0 +1,42 @@
+#Histograms
+GET /order/_search
+{
+  "size": 0,
+  "query": {
+    "range": {
+      "total_amount": {
+        "gte": 50
+        
+      }
+    }
+  }, 
+  "aggs": {
+    "my_histogram": {
+      "histogram": {
+        "field": "total_amount",
+        "interval": 25,
+        "min_doc_count": 1,
+        "extended_bounds": {
+          "min": 0,
+          "max": 500
+        }
+      }
+    }
+  }
+}
+
+#Date Histograms
+
+GET /order/_search
+{
+  "size": 0,
+   "aggs": {
+    "my_date_histigram": {
+      "date_histogram": {
+        "field": "purchased_at",
+        "calendar_interval": "month"
+      }
+    }
+  }
+}
+
