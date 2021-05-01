@@ -1,0 +1,89 @@
+#Aggregations
+
+
+PUT /order
+{
+  "mappings": {
+    "properties": {
+      "purchased_at": {
+        "type": "date"
+      },
+      "lines": {
+        "type": "nested",
+        "properties": {
+          "product_id": {
+            "type": "integer"
+          },
+          "amount": {
+            "type": "double"
+          },
+          "quantity": {
+            "type": "short"
+          }
+        }
+      },
+      "total_amount": {
+        "type": "double"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "sales_channel": {
+        "type": "keyword"
+      },
+      "salesman": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  }
+}
+
+GET /order/_mapping
+
+GET /order/_search
+{
+  "size": 0
+  , "aggs": {
+    "total_sales": {
+      "sum": {
+        "field": "total_amount"
+      }
+    },
+    "total_sales_avg":{
+      "avg": {
+        "field": "total_amount"
+        
+      }
+      
+    }
+  }
+}
+
+
+#Bucket Aggregations
+
+GET /order/_search
+{
+  "size":0
+  , "aggs": {
+    "status_terms": {
+      "terms": {
+        "field": "status",
+       "missing": "N/A",
+       "min_doc_count": 0,
+       "order": {
+         "_key": "asc"
+       }
+      }
+    }
+  }
+}
+
